@@ -10,7 +10,8 @@ public class ATM {
     private double currentBalance;
     private String name;
     private double DEFAULT_VAL = 50;
-    int[] auditLog = new int[3];
+    private int[] auditLog = new int[3];
+    private String pin;
 
     public ATM() {
         this.currentBalance = DEFAULT_VAL;
@@ -31,6 +32,7 @@ public class ATM {
                 break;
             }
         }
+        setPin(name);
     }
 
     public void transaction(Scanner response) throws Exception {
@@ -50,7 +52,7 @@ public class ATM {
 
             } else if (currentResponse.equals("4") || currentResponse.toLowerCase().contains("cancel")) {
                 System.out.println("Thank you " + this.name + ", Please come again. Balance: " + this.currentBalance);
-                showAuditLog();
+                showAuditLog(response);
                 break;
             } else {
                 throw new Exception("That is not a logical response. Please Enter a [1,2,3,4].");
@@ -88,7 +90,45 @@ public class ATM {
         return "Not enough money";
     }
 
-    public void showAuditLog(){
+    public void setPin(Scanner pin){
+        while (true) {
+            System.out.println("Enter a 4 character pin");
+            String userPin = pin.nextLine();
+            if (userPin.length() == 4) {
+                this.pin = userPin;
+                break;
+            }
+        }
+    }
+
+    public String getPin(){
+        return this.pin;
+    }
+
+
+
+    public void showAuditLog(Scanner response) {
+        System.out.println("To see audit log, enter your pin, you have 3 chances");
+        int count = 3;
+        while (count > 0) {
+            String userResp = response.nextLine();
+            if (!this.pin.equals(userResp)) {
+                count--;
+                if (count == 0) {
+                    System.out.println("Sorry, out of tries.");
+                    System.exit(0);
+                }
+                System.out.println("chances left: " + count);
+            }else{
+                printAuditLog();
+            }
+
+        }
+
+    }
+
+    public void printAuditLog(){
+
         System.out.println("*************************************");
         System.out.printf("*********%s AUDIT LOG***********\n", this.name.toUpperCase() + "'S");
         System.out.println("*************************************");
@@ -106,5 +146,4 @@ public class ATM {
             }
         }
     }
-
 }
