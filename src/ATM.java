@@ -26,7 +26,7 @@ public class ATM {
 
         while (true) {
             String userName = name.nextLine();
-            if (!userName.equals("")) {
+            if (!userName.isEmpty()) {
                 this.name = userName;
                 break;
             }
