@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class ATM {
     private double currentBalance;
     private String name;
-    private double DEFAULT_VAL = 50;
+    private final double DEFAULT_VAL = 100;
     private int[] auditLog = new int[3];
     private String pin;
 
